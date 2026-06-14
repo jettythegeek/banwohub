@@ -35,9 +35,9 @@ class BanwolawSeeder extends Seeder
                 'name' => 'Banwolaw Admin',
                 'job_title' => 'Managing Partner',
                 'is_active' => true,
+                'password' => $adminPassword,
             ]
         );
-        $admin->forceFill(['password' => $adminPassword])->save();
 
         if (! $admin->hasRole('Firm Admin')) {
             $admin->assignRole('Firm Admin');
@@ -51,9 +51,9 @@ class BanwolawSeeder extends Seeder
                 'name' => 'System Administrator',
                 'job_title' => 'IT Admin',
                 'is_active' => true,
+                'password' => $sysadminPassword,
             ]
         );
-        $systemAdmin->forceFill(['password' => $sysadminPassword])->save();
 
         if (! $systemAdmin->hasRole('System Admin')) {
             $systemAdmin->assignRole('System Admin');
