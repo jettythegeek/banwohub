@@ -1,0 +1,26 @@
+# OnlyOffice Document Server — Slice 5 evaluation POC
+#
+# Start:  docker compose -f docker-compose.onlyoffice.yml up -d
+# Stop:   docker compose -f docker-compose.onlyoffice.yml down
+#
+# Match backend .env:
+#   ONLYOFFICE_URL=http://localhost:8080
+#   ONLYOFFICE_JWT_SECRET=banwohub-onlyoffice-dev
+
+services:
+  onlyoffice-documentserver:
+    image: onlyoffice/documentserver:8.2
+    ports:
+      - "8080:80"
+    environment:
+      JWT_ENABLED: "true"
+      JWT_SECRET: banwohub-onlyoffice-dev
+      JWT_HEADER: Authorization
+    volumes:
+      - onlyoffice_data:/var/www/onlyoffice/Data
+      - onlyoffice_logs:/var/www/onlyoffice/logs
+    restart: unless-stopped
+
+volumes:
+  onlyoffice_data:
+  onlyoffice_logs:

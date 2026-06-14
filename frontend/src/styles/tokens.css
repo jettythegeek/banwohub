@@ -1,0 +1,159 @@
+/**
+ * Banwolaw Hub — Design Tokens
+ * Authoritative spec: docs/DESIGN_SYSTEM.md
+ * Brand colors from docs/03-design-system/ (BanwoHub teal + gold — NOT tiimi yellow)
+ */
+
+:root {
+  /* BanwoHub teal sidebar shell (not tiimi charcoal) */
+  --sidebar-bg: var(--primary-800);
+  --sidebar-fg: #ffffff;
+  --sidebar-muted: rgba(255, 255, 255, 0.55);
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-hover: rgba(255, 255, 255, 0.08);
+
+  /* BanwoHub brand gold — Add buttons, active nav pill, active tab underline */
+  --accent-gold: #b1915a;
+  --accent-gold-hover: #9a8252;
+  --accent-gold-fg: #ffffff;
+
+  /* BanwoHub brand teal — Save, Publish, Send, primary actions */
+  --action-teal: #0a4f5e;
+  --action-teal-hover: #083944;
+  --action-teal-fg: #ffffff;
+
+  --selection-teal: #e8f3f6;
+
+  /* Primary scale (BanwoHub teal) */
+  --primary-950: #021419;
+  --primary-900: #062702;
+  --primary-800: #053742;
+  --primary-700: #083944;
+  --primary-600: #0a4f5e;
+  --primary-500: #0d6678;
+  --primary-400: #1a8499;
+  --primary-300: #4daaba;
+  --primary-200: #8ec9d4;
+  --primary-100: #c5e3ea;
+  --primary-50: #e8f3f6;
+
+  /* Accent scale (BanwoHub gold) */
+  --accent-700: #8a7348;
+  --accent-600: #9a8252;
+  --accent-500: #b1915a;
+  --accent-400: #b99d6a;
+  --accent-300: #fad28c;
+  --accent-200: #fce5b8;
+  --accent-100: #fdf4e3;
+  --accent-50: #fefbf5;
+
+  --neutral-950: #111827;
+  --neutral-900: #1f2937;
+  --neutral-800: #374151;
+  --neutral-700: #4b5563;
+  --neutral-600: #6b7280;
+  --neutral-500: #9ca3af;
+  --neutral-400: #d1d5db;
+  --neutral-300: #e6e9ec;
+  --neutral-200: #f3f4f6;
+  --neutral-100: #f8f9fb;
+  --neutral-50: #ffffff;
+
+  --background: #f8f9fb;
+  --foreground: var(--neutral-900);
+  --surface: #ffffff;
+  --surface-muted: var(--neutral-200);
+  --border: var(--neutral-300);
+  --border-strong: var(--neutral-400);
+
+  --primary: var(--action-teal);
+  --primary-foreground: var(--action-teal-fg);
+  --primary-muted: var(--primary-50);
+
+  --secondary: var(--accent-gold);
+  --secondary-foreground: var(--accent-gold-fg);
+  --secondary-muted: var(--accent-100);
+
+  --accent: var(--accent-gold);
+  --muted: var(--neutral-600);
+  --muted-foreground: var(--neutral-600);
+  --ring: var(--action-teal);
+
+  --status-success-bg: #ecfdf5;
+  --status-success-fg: #047857;
+  --status-success-border: #a7f3d0;
+
+  --status-warning-bg: #fffbeb;
+  --status-warning-fg: #b45309;
+  --status-warning-border: #fde68a;
+
+  --status-danger-bg: #fef2f2;
+  --status-danger-fg: #b91c1c;
+  --status-danger-border: #fecaca;
+
+  --status-info-bg: var(--primary-50);
+  --status-info-fg: var(--action-teal);
+  --status-info-border: var(--primary-200);
+
+  --status-neutral-fg: var(--muted-foreground);
+
+  --status-task-not-started: var(--muted-foreground);
+  --status-task-in-progress: var(--status-info-fg);
+  --status-task-awaiting-review: var(--status-warning-fg);
+  --status-task-blocked: var(--status-danger-fg);
+  --status-task-completed: var(--status-success-fg);
+
+  --status-case-new: var(--status-info-fg);
+  --status-case-active: var(--status-success-fg);
+  --status-case-in-court: var(--status-warning-fg);
+  --status-case-awaiting-client: var(--status-warning-fg);
+  --status-case-closed: var(--muted-foreground);
+
+  --status-intake-pending: var(--primary);
+  --status-intake-reviewing: var(--status-warning-fg);
+  --status-intake-rejected: var(--status-danger-fg);
+  --status-intake-qualified: var(--status-success-fg);
+
+  --status-invoice-paid: var(--status-success-fg);
+  --status-invoice-pending: var(--status-warning-fg);
+  --status-invoice-overdue: var(--status-danger-fg);
+
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --space-sidebar: 256px;
+  --space-page-x: 32px;
+  --space-page-y: 32px;
+  --space-card: 24px;
+
+  --sidebar-width: 256px;
+  --header-height: 64px;
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-modal: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-none: none;
+
+  --sidebar-active-bg: var(--accent-gold);
+  --sidebar-active-fg: var(--accent-gold-fg);
+  --sidebar-brand: var(--accent-gold);
+}
+
+.bw-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.bw-focus-ring:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}

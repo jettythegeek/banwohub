@@ -1,0 +1,113 @@
+name: E2E smoke
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: banwohub
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      PLAYWRIGHT_BASE_URL: http://127.0.0.1:3000
+      PLAYWRIGHT_SKIP_WEBSERVER: '1'
+      E2E_STAFF_EMAIL: admin@banwolaw.com
+      E2E_STAFF_PASSWORD: ChangeMe123!
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_mysql, openssl, tokenizer, xml, ctype, json
+          coverage: none
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Configure backend environment
+        working-directory: backend
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          {
+            echo "APP_URL=http://127.0.0.1:8000"
+            echo "DB_HOST=127.0.0.1"
+            echo "DB_PORT=3306"
+            echo "DB_DATABASE=banwohub"
+            echo "DB_USERNAME=root"
+            echo "DB_PASSWORD=root"
+            echo "SESSION_DOMAIN=null"
+            echo "SANCTUM_STATEFUL_DOMAINS=127.0.0.1:3000,localhost:3000"
+            echo "FRONTEND_URL=http://127.0.0.1:3000"
+            echo "CORS_ALLOWED_ORIGINS=http://127.0.0.1:3000,http://localhost:3000"
+            echo "MAIL_MAILER=log"
+            echo "AI_STUB_MODE=true"
+          } >> .env
+
+      - name: Configure frontend environment
+        working-directory: frontend
+        run: |
+          cp .env.example .env
+          echo "VITE_API_URL=http://127.0.0.1:8000/api/v1" >> .env
+
+      - name: Prepare database
+        working-directory: backend
+        run: |
+          php artisan migrate --force --seed
+          php artisan db:seed --class=E2eSmokeSeeder --force
+
+      - name: Start Laravel API
+        working-directory: backend
+        run: php artisan serve --host=127.0.0.1 --port=8000 &
+
+      - name: Start Vite dev server
+        working-directory: frontend
+        run: npm run dev &
+
+      - name: Wait for services
+        run: |
+          for i in $(seq 1 60); do
+            curl -sf http://127.0.0.1:8000/ -o /dev/null && break
+            sleep 2
+          done
+          for i in $(seq 1 60); do
+            curl -sf http://127.0.0.1:3000/ -o /dev/null && break
+            sleep 2
+          done
+
+      - name: Install Playwright browsers
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E smoke tests
+        working-directory: frontend
+        run: npm run test:e2e
