@@ -1,0 +1,1 @@
+import{o as e}from"./runtime-core.esm-bundler-Bs9WTpm7.js";import{i as t}from"./index-CS4-PDVg.js";function n(){let n=t(),r=e(()=>n.user?.permissions??[]);function i(e){return r.value.includes(e)}return{permissions:r,can:i,primaryRole:e(()=>n.user?.roles?.[0]??``)}}export{n as t};

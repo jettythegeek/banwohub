@@ -50,7 +50,7 @@ async function handleSubmit() {
       <p class="text-sm text-foreground">
         If that email is on file, we sent reset instructions. Check your inbox.
         For local dev, see
-        <code class="text-xs">backend/storage/logs/laravel.log</code>.
+        <code class="text-xs">storage/logs/laravel.log</code>.
       </p>
       <p
         v-if="debugLink"

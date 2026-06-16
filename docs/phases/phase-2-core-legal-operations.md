@@ -66,7 +66,7 @@
 
 ## Implementation tracker
 
-Use this tracker for Phase 2 implementation handoff and QA sign-off. Backend API stabilization was verified on 2026-06-04 with 65 registered Phase 2 API routes under `/api/v1`. Full backend + frontend re-verification was completed on 2026-06-05: **48** Phase 2 endpoint calls return expected HTTP statuses (`backend/scripts/verify-phase2.php`), the RBAC matrix is enforced (`backend/scripts/verify-rbac.php`), the frontend `vue-tsc --noEmit` typecheck is clean, and `vite build` succeeds.
+Use this tracker for Phase 2 implementation handoff and QA sign-off. Backend API stabilization was verified on 2026-06-04 with 65 registered Phase 2 API routes under `/api/v1`. Full backend + frontend re-verification was completed on 2026-06-05: **48** Phase 2 endpoint calls return expected HTTP statuses (`scripts/verify-phase2.php`), the RBAC matrix is enforced (`scripts/verify-rbac.php`), the frontend `vue-tsc --noEmit` typecheck is clean, and `vite build` succeeds.
 
 ### Backend APIs
 

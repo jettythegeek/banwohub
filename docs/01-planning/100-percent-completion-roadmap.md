@@ -338,13 +338,13 @@ Workstreams run in parallel where possible; **slice order** below defines merge 
 After each slice:
 
 ```bash
-cd backend && php scripts/verify-phase2.php
-cd backend && php scripts/verify-phase3.php
-cd backend && php scripts/verify-phase4.php
-cd backend && php scripts/verify-phase5.php
-cd backend && php scripts/verify-search.php
-cd backend && php scripts/verify-audit.php
-cd backend && php scripts/verify-rbac.php
+php scripts/verify-phase2.php
+php scripts/verify-phase3.php
+php scripts/verify-phase4.php
+php scripts/verify-phase5.php
+php scripts/verify-search.php
+php scripts/verify-audit.php
+php scripts/verify-rbac.php
 cd frontend && npm run type-check && npm run build-only
 cd frontend && npm run test:e2e   # after E2eSmokeSeeder + dev servers (Slice 13)
 ```

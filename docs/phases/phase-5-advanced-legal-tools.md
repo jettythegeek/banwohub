@@ -104,7 +104,7 @@ See [risks](../01-planning/risks-and-considerations.md): verify all case law cit
 | Filing lifecycle statuses (11 states) + manual filing method | Done |
 | Permissions `filings.*`, `court-forms.*` (Consultant excluded) | Done |
 | `/filings` staff view + case workspace Filings tab | Done |
-| Verification | `backend/scripts/verify-phase5.php` — **31/31** (Slice 1 only) |
+| Verification | `scripts/verify-phase5.php` — **31/31** (Slice 1 only) |
 
 **Deferred to Slice 2:** AI form validation, approval → filing pipeline, e-filing integration, auto calendar deadlines on court response.
 
@@ -120,7 +120,7 @@ See [risks](../01-planning/risks-and-considerations.md): verify all case law cit
 | API `/evidence-items` CRUD + status, assign-exhibit, custody-logs, exhibit-index, export-bundle | Done |
 | Permissions `evidence.*` (Consultant excluded) | Done |
 | `/evidence` staff view + case workspace Evidence tab | Done |
-| Verification | `backend/scripts/verify-phase5.php` — **59/59** (Slices 1–2) |
+| Verification | `scripts/verify-phase5.php` — **59/59** (Slices 1–2) |
 
 **Deferred to Slice 3:** Exhibit grouping, legal-issue linking, evidence tags UI polish.
 
@@ -135,7 +135,7 @@ See [risks](../01-planning/risks-and-considerations.md): verify all case law cit
 | Permissions `briefs.*` (Consultant excluded) | Done |
 | `/briefs` staff list + case workspace Briefs tab + `/briefs/:id` editor | Done |
 | RichTextEditor + research side panel (notes summary, authority suggestions) | Done |
-| Verification | `backend/scripts/verify-phase5.php` — **Slices 1–3** |
+| Verification | `scripts/verify-phase5.php` — **Slices 1–3** |
 
 **Deferred to Slice 4:** Argument structure guide UI, legal terminology suggestions, citation format automation.
 
@@ -150,7 +150,7 @@ See [risks](../01-planning/risks-and-considerations.md): verify all case law cit
 | Create court filing from approved motion | Done |
 | Permissions `motions.*` (Consultant excluded) | Done |
 | `/motions` staff list + case workspace Motions tab + `/motions/:id` editor | Done |
-| Verification | `backend/scripts/verify-phase5.php` — **Slices 1–4** |
+| Verification | `scripts/verify-phase5.php` — **Slices 1–4** |
 
 **Deferred to Slice 6:** AI argument drafting, authority recommendations, client review workflow step.
 
@@ -167,7 +167,7 @@ See [risks](../01-planning/risks-and-considerations.md): verify all case law cit
 | Permissions `research.*` (Consultant excluded) | Done |
 | `/research` staff view + case workspace Research tab enhancements | Done |
 | Phase 4 AI assistant retained (summarize notes, suggest authorities) | Done |
-| Verification | `backend/scripts/verify-phase5.php` — **Slices 1–5** |
+| Verification | `scripts/verify-phase5.php` — **Slices 1–5** |
 
 **Deferred to Slice 7:** External licensed research DB, AI case comparison, conflicting-decision analysis.
 
@@ -184,7 +184,7 @@ See [risks](../01-planning/risks-and-considerations.md): verify all case law cit
 | API `/ediscovery-collections`, `/ediscovery-documents`, `/ediscovery-tags`, `/ediscovery-review-assignments`, `/ediscovery-review-progress` | Done |
 | Permissions `ediscovery.*` (Consultant excluded) | Done |
 | `/e-discovery` staff view + case workspace E-discovery tab | Done |
-| Verification | `backend/scripts/verify-phase5.php` — **Slices 1–6** |
+| Verification | `scripts/verify-phase5.php` — **Slices 1–6** |
 
 **Deferred to Slice 8:** Full-text OCR indexing, highlight/annotation UI, OpenSearch scaling.
 
@@ -201,7 +201,7 @@ See [risks](../01-planning/risks-and-considerations.md): verify all case law cit
 | Permissions `knowledge.*` (Consultant excluded) | Done |
 | `/knowledge` staff view + case workspace Knowledge tab | Done |
 | Optional AI assistant link with pre-filled KB prompt | Done |
-| Verification | `backend/scripts/verify-phase5.php` — **Slices 1–7** |
+| Verification | `scripts/verify-phase5.php` — **Slices 1–7** |
 
 **Deferred to Slice 8:** Legal project management, AI analytics, CLE module.
 
@@ -223,10 +223,10 @@ See [risks](../01-planning/risks-and-considerations.md): verify all case law cit
 | Permissions `projects.*`, `analytics.view`, `training.*` (Consultant excluded) | Done |
 | `/legal-projects`, `/legal-analytics`, `/training` staff views | Done |
 | Case workspace Project tab (milestones + budget) | Done |
-| Verification | `backend/scripts/verify-phase5.php` — **287/287** (Slices 1–8) |
+| Verification | `scripts/verify-phase5.php` — **287/287** (Slices 1–8) |
 
 **Phase 5 complete (MVP):** yes (signed off 2026-06-05)
 
 MVP acceptance criteria 1–6 are met. Full Phase 5 deliverables still open: AI form validation, e-filing integration, external licensed research DB, full-text OCR/OpenSearch for e-discovery, advanced predictive ML models, and consultant portal refinements beyond invited-matter scoping.
 
-**Run:** `cd backend && php artisan migrate && php scripts/verify-phase5.php && php scripts/verify-phase4.php && php scripts/verify-phase3.php && php scripts/verify-phase2.php`
+**Run:** `php artisan migrate && php scripts/verify-phase5.php && php scripts/verify-phase4.php && php scripts/verify-phase3.php && php scripts/verify-phase2.php`

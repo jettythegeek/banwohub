@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { resolveApiUrl as resolveBaseApiUrl } from '@/lib/api-url'
 import { requestDone, requestStart } from '@/lib/progress'
 import type {
   Invoice,
@@ -20,17 +21,17 @@ import type {
 const PORTAL_TOKEN_KEY = 'banwohub_portal_token'
 
 function resolveApiUrl(): string {
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL as string
-  }
   if (typeof window !== 'undefined') {
-    const { port } = window.location
-    if (port === '3000' || port === '') {
-      return 'http://127.0.0.1:8000/api/v1'
-    }
-    return `${window.location.origin}/api/v1`
+    return resolveBaseApiUrl({
+      configuredUrl: import.meta.env.VITE_API_URL as string | undefined,
+      origin: window.location.origin,
+      port: window.location.port,
+    })
   }
-  return 'http://127.0.0.1:8000/api/v1'
+
+  return resolveBaseApiUrl({
+    configuredUrl: import.meta.env.VITE_API_URL as string | undefined,
+  })
 }
 
 export const portalApi = axios.create({

@@ -42,7 +42,7 @@ Laravel remains orchestration layer; no heavy ML inside PHP. Stub mode (`AI_STUB
 | Staff API `/api/v1/ai/*` | Done — chat, summarize, draft-assist, case-qa, intake/timeline summary |
 | Portal client block (`EnsureStaffAiAccess`) | Done — clients cannot call internal AI |
 | Permissions `ai.use`, `ai.governance.view` | Done — seeded for Firm Admin, Partner, Lawyer, Paralegal |
-| Verification | `backend/scripts/verify-phase4.php` — **22/22** |
+| Verification | `scripts/verify-phase4.php` — **22/22** |
 
 ### Slice 2 complete (2026-06-05)
 
@@ -55,7 +55,7 @@ Laravel remains orchestration layer; no heavy ML inside PHP. Stub mode (`AI_STUB
 | Frontend API client | Done — `aiApi` in `frontend/src/lib/api.ts` |
 | Verification | `verify-phase4.php` — **31/31** (permission gate, UI file checks) |
 
-**Run:** `cd backend && php artisan migrate && php scripts/verify-phase4.php`
+**Run:** `php artisan migrate && php scripts/verify-phase4.php`
 
 ### Slice 3 complete (2026-06-05)
 
@@ -68,7 +68,7 @@ Laravel remains orchestration layer; no heavy ML inside PHP. Stub mode (`AI_STUB
 | Reused governance UI components | Done — `AiDisclaimerBanner`, `AiOutputBadges` |
 | Verification | `verify-phase4.php` — extended for AI draft workflow |
 
-**Run:** `cd backend && php artisan migrate && php scripts/verify-phase4.php && php scripts/verify-phase3.php && php scripts/verify-phase2.php`
+**Run:** `php artisan migrate && php scripts/verify-phase4.php && php scripts/verify-phase3.php && php scripts/verify-phase2.php`
 
 ### Slice 4 complete (2026-06-05)
 
@@ -83,7 +83,7 @@ Laravel remains orchestration layer; no heavy ML inside PHP. Stub mode (`AI_STUB
 | Frontend panels | Done — `ApprovalWorkflowPanel` on documents + invoices |
 | Verification | `verify-phase4.php` — **66/66** (regression: phase3 159/159, phase2 48/48) |
 
-**Run:** `cd backend && php artisan migrate && php scripts/verify-phase4.php && php scripts/verify-phase3.php && php scripts/verify-phase2.php`
+**Run:** `php artisan migrate && php scripts/verify-phase4.php && php scripts/verify-phase3.php && php scripts/verify-phase2.php`
 
 ### Slice 5 complete (2026-06-05)
 
@@ -100,7 +100,7 @@ Laravel remains orchestration layer; no heavy ML inside PHP. Stub mode (`AI_STUB
 
 **Admin setup:** Settings → AI Providers → enter API key for a provider → enable → Save → Test connection → Set active.
 
-**Run:** `cd backend && php artisan migrate && php scripts/verify-phase4.php && php scripts/verify-phase3.php && php scripts/verify-phase2.php`
+**Run:** `php artisan migrate && php scripts/verify-phase4.php && php scripts/verify-phase3.php && php scripts/verify-phase2.php`
 
 ### Slice 6 complete (2026-06-05)
 
@@ -116,7 +116,7 @@ Laravel remains orchestration layer; no heavy ML inside PHP. Stub mode (`AI_STUB
 | Signed copy on case | Done — new `legal_document` (category `signed`, PDF when Dompdf available) |
 | Verification | `verify-phase4.php` — **113/113** (regression: phase3 159/159, phase2 48/48) |
 
-**Run:** `cd backend && php artisan migrate && php scripts/verify-phase4.php && php scripts/verify-phase3.php && php scripts/verify-phase2.php`
+**Run:** `php artisan migrate && php scripts/verify-phase4.php && php scripts/verify-phase3.php && php scripts/verify-phase2.php`
 
 ### Slice 7 complete (2026-06-05)
 
@@ -129,7 +129,7 @@ Laravel remains orchestration layer; no heavy ML inside PHP. Stub mode (`AI_STUB
 | Governance + disclaimers | Done — `requires_review`, labeled outputs, `ai_governance_logs` |
 | Verification | `verify-phase4.php` — **132/132** (regression: phase3 159/159, phase2 48/48) |
 
-**Run:** `cd backend && php artisan migrate && php scripts/verify-phase4.php && php scripts/verify-phase3.php && php scripts/verify-phase2.php`
+**Run:** `php artisan migrate && php scripts/verify-phase4.php && php scripts/verify-phase3.php && php scripts/verify-phase2.php`
 
 **Phase 4 complete (MVP):** yes (signed off 2026-06-05)
 

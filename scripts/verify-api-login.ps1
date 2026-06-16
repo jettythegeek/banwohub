@@ -1,5 +1,5 @@
 # Verify Banwolaw Hub login against the API (run from repo root).
-# Requires: php artisan serve in backend/, Apache restarted if using banwohub.test.
+# Requires: php artisan serve from the repository root, Apache restarted if using banwohub.test.
 param(
     [string]$ApiBase = "http://banwohub.test/api/v1",
     [string]$Email = "admin@banwolaw.com",

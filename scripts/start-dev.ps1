@@ -2,7 +2,7 @@
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
 $Frontend = Join-Path $Root "frontend"
-$Backend = Join-Path $Root "backend"
+$Backend = $Root
 
 function Resolve-Npm {
     if (Get-Command npm -ErrorAction SilentlyContinue) { return "npm" }
@@ -63,7 +63,7 @@ try {
         Write-Host "Laravel API listening on http://127.0.0.1:8000" -ForegroundColor Green
     }
 } catch {
-    Write-Host "WARN: API health check failed. Check PHP 8.4+ and backend/.env" -ForegroundColor Yellow
+    Write-Host "WARN: API health check failed. Check PHP 8.4+ and .env" -ForegroundColor Yellow
 }
 
 try {

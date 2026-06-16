@@ -1,0 +1,1 @@
+var e=`en-US`;function t(t,n=`USD`){return t==null?`—`:new Intl.NumberFormat(e,{style:`currency`,currency:n}).format(t)}export{t};

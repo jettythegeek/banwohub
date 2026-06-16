@@ -22,7 +22,7 @@ Use these URLs (not `localhost:3000` / `localhost:8000`):
 | **App UI** | http://banwohub.test |
 | **API** | http://api.banwohub.test/api/v1 |
 
-The UI is proxied by Apache to the Vue/Vite dev server on port **3000**. The API is served by Apache from `backend/public` (no `php artisan serve` required for normal XAMPP dev).
+The UI is proxied by Apache to the Vue/Vite dev server on port **3000**. The API is served from the Laravel app at the repository root.
 
 ### 1. Windows hosts file
 
@@ -54,11 +54,10 @@ Or run as admin from the repo root:
 Copy examples and align URLs:
 
 ```bash
-cd backend
 copy .env.example .env
 ```
 
-Key values in `backend/.env`:
+Key values in `.env`:
 
 ```env
 APP_URL=http://api.banwohub.test
@@ -104,7 +103,9 @@ Opening `http://localhost/banwohub/` redirects to http://banwohub.test via the r
 
 ```
 banwohub/
-├── backend/          # Laravel 13 API
+├── app/              # Laravel application code
+├── public/           # Laravel public document root
+├── routes/           # Laravel routes
 ├── frontend/         # Vue 3 + Vite app
 ├── docs/             # Product & technical docs
 └── README.md
@@ -121,11 +122,10 @@ CREATE DATABASE banwohub CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ## 2. Backend setup
 
 ```bash
-cd backend
 copy .env.example .env
 ```
 
-Edit `backend/.env` — set `DB_USERNAME`, `DB_PASSWORD` (do not commit `.env`):
+Edit `.env` — set `DB_USERNAME`, `DB_PASSWORD` (do not commit `.env`):
 
 ```env
 DB_CONNECTION=mysql
@@ -145,7 +145,7 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 
-API (XAMPP vhosts): `http://api.banwohub.test/api/v1` — Apache serves `backend/public`; do not run `php artisan serve` unless you intentionally use the localhost fallback below.
+API (XAMPP vhosts): `http://api.banwohub.test/api/v1` — Apache proxies to `php artisan serve` on port 8000 when you use `.\scripts\start-dev.ps1`.
 
 **Localhost fallback only:** `php artisan serve` + set `APP_URL=http://localhost:8000`, `VITE_API_URL=http://127.0.0.1:8000/api/v1`, open `http://127.0.0.1:3000`.
 
@@ -172,8 +172,76 @@ App (with vhosts): **http://banwohub.test** — run `.\scripts\start-dev.ps1` (V
 ## 4. Verify
 
 ```bash
-cd backend && php artisan route:list --path=api
+php artisan route:list --path=api
 cd frontend && npm run build
+```
+
+## Local Production Build
+
+Build the Vue app locally and copy the compiled files into Laravel `public/`:
+
+```powershell
+.\scripts\build-production.ps1
+```
+
+This builds with:
+
+```env
+VITE_API_URL=https://hub.banwolaw.net/api/v1
+```
+
+After the script finishes, deploy the repository root to production and point
+the domain document root to:
+
+```text
+public/
+```
+
+Do not run `npm run build` on the production server anymore.
+
+## Production auth checklist
+
+The staff dashboard uses Sanctum personal access tokens. After `/auth/login`, every
+protected API request must include:
+
+```http
+Authorization: Bearer {token}
+```
+
+For production builds, set the frontend API URL before running `npm run build`:
+
+```env
+VITE_API_URL=https://your-domain.com/api/v1
+```
+
+If the frontend and API are on the same domain, this variable can be omitted and
+the app will use `https://your-domain.com/api/v1`. Do not build production with
+the local value `http://banwohub.test/api/v1`.
+
+Backend production `.env` essentials:
+
+```env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://your-domain.com
+FRONTEND_URL=https://your-domain.com
+CORS_ALLOWED_ORIGINS=https://your-domain.com
+```
+
+After changing backend environment values on production, clear cached config:
+
+```bash
+php artisan optimize:clear
+php artisan config:cache
+```
+
+If login succeeds but `/api/v1/auth/me` or `/api/v1/dashboard` returns `401
+Unauthenticated`, confirm the web server passes the `Authorization` header to
+PHP. Apache deployments need the Laravel `public/.htaccess` rule that sets
+`HTTP_AUTHORIZATION`; Nginx/PHP-FPM deployments need:
+
+```nginx
+fastcgi_param HTTP_AUTHORIZATION $http_authorization;
 ```
 
 ## E2E smoke tests (Playwright)
@@ -187,7 +255,6 @@ Minimal browser smoke suite for staff login, dashboard navigation, case tasks ka
 - Database migrated and seeded, plus E2E fixtures:
 
 ```bash
-cd backend
 php artisan migrate --seed
 php artisan db:seed --class=E2eSmokeSeeder
 ```
@@ -223,9 +290,9 @@ CI runs via [`.github/workflows/e2e-smoke.yml`](.github/workflows/e2e-smoke.yml)
 
 ## Password reset (local)
 
-With `MAIL_MAILER=log` in `backend/.env`, reset emails are written to `backend/storage/logs/laravel.log`. The API also logs each reset URL and, when `APP_DEBUG=true`, returns a `reset_link` in the JSON response.
+With `MAIL_MAILER=log` in `.env`, reset emails are written to `storage/logs/laravel.log`. The API also logs each reset URL and, when `APP_DEBUG=true`, returns a `reset_link` in the JSON response.
 
-Set the frontend reset page URL (see `backend/.env.example`):
+Set the frontend reset page URL (see `.env.example`):
 
 ```env
 PASSWORD_RESET_FRONTEND_URL=http://banwohub.test/reset-password
@@ -271,7 +338,7 @@ API keys are encrypted at rest and masked in API responses. With no active provi
 | PUT | `/settings/ai-providers/active` | Set the single active provider |
 | POST | `/settings/ai-providers/{provider}/test-connection` | Validate API key |
 
-Verify: `cd backend && php artisan migrate && php scripts/verify-phase4.php`
+Verify: `php artisan migrate && php scripts/verify-phase4.php`
 
 ## Design system
 
@@ -283,8 +350,8 @@ Flat UI — no box shadows. Tokens: `docs/03-design-system/tokens.css` (copied t
 - **Composer not found**: use full path `C:\ProgramData\ComposerSetup\bin\composer.bat` or add Composer to PATH.
 - **npm not found**: add `C:\Program Files\nodejs` to PATH.
 - **MySQL connection refused**: start MySQL in XAMPP; confirm `banwohub` exists and credentials in `.env`.
-- **CORS errors**: set `CORS_ALLOWED_ORIGINS` and `SANCTUM_STATEFUL_DOMAINS` in `backend/.env` to `http://banwohub.test` / `banwohub.test` (see Local development URL above).
-- **Login fails with correct password**: Usually the API is unreachable (misleading message). Keep `php artisan serve` running (PHP 8.4+), restart Vite after `.env` changes, restart Apache for `/api` proxy. Test: `cd backend` then `php scripts\verify-login.php` (expect `password_ok`). Re-seed only if needed: `php artisan migrate:fresh --seed`.
+- **CORS errors**: set `CORS_ALLOWED_ORIGINS` and `SANCTUM_STATEFUL_DOMAINS` in `.env` to `http://banwohub.test` / `banwohub.test` (see Local development URL above).
+- **Login fails with correct password**: Usually the API is unreachable (misleading message). Keep `php artisan serve` running (PHP 8.4+), restart Vite after `.env` changes, restart Apache for `/api` proxy. Test from the repository root with `php scripts\verify-login.php` (expect `password_ok`). Re-seed only if needed: `php artisan migrate:fresh --seed`.
 - **Login page prefilled**: should be empty; hard-refresh the browser if you still see old values.
 - **503 Service Unavailable at banwohub.test**: Vite is not running on port 3000. Run `.\scripts\start-dev.ps1` (or `cd frontend && npm run dev`).
 - **Laragon shows static placeholder instead of the app**: Laragon’s default vhost serves the repo root. Run `.\scripts\setup-laragon.ps1` as Administrator (enables Apache proxy + custom vhosts), then `.\scripts\start-dev.ps1`.

@@ -126,7 +126,7 @@ MVP modules 11–14, 16 (basic reporting), plus portal/comms/billing/time.
   approve}` seeded across roles in `RolesAndPermissionsSeeder`.
 - **Frontend**: global Time tracking view (nav + `/time-tracking`) and a Time tab on the case
   workspace (`CaseTimePanel`) with live timer, manual entry, billable summary, approve/delete.
-- **Verification**: `backend/scripts/verify-phase3.php` — 20/20 checks pass; Phase 2 suite
+- **Verification**: `scripts/verify-phase3.php` — 20/20 checks pass; Phase 2 suite
   still 48/48 (no regressions).
 
 ### Invoicing — completed
@@ -144,7 +144,7 @@ MVP modules 11–14, 16 (basic reporting), plus portal/comms/billing/time.
 - **Frontend**: global Invoices list (`/invoices`), create/detail views, generate-from-time
   flow, case Invoices tab (`CaseInvoicesPanel`), and client invoice history
   (`ClientInvoicesPanel`). Sidebar nav entry when `invoices.view` is granted.
-- **Verification**: `backend/scripts/verify-phase3.php` — time tracking + invoicing
+- **Verification**: `scripts/verify-phase3.php` — time tracking + invoicing
   checks pass; Phase 2 suite still green.
 
 ### Client portal foundation — completed
@@ -160,7 +160,7 @@ MVP modules 11–14, 16 (basic reporting), plus portal/comms/billing/time.
 - **Frontend**: `/portal/*` routes with separate `PortalLayout`, portal login,
   dashboard (cases, recent invoices, messages placeholder), case detail,
   invoices list/detail. Staff document panel includes **Client visible** toggle.
-- **Verification**: `backend/scripts/verify-phase3.php` — portal login, scoped
+- **Verification**: `scripts/verify-phase3.php` — portal login, scoped
   access, document visibility, and cross-client isolation checks added.
 
 ### Stripe/PayPal portal checkout — completed

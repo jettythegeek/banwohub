@@ -35,7 +35,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: mbstring, pdo_mysql, openssl, tokenizer, xml, ctype, json
           coverage: none
 
@@ -46,7 +46,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install backend dependencies
-        working-directory: backend
+        working-directory: .
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Install frontend dependencies
@@ -54,7 +54,7 @@ jobs:
         run: npm ci
 
       - name: Configure backend environment
-        working-directory: backend
+        working-directory: .
         run: |
           cp .env.example .env
           php artisan key:generate
@@ -80,13 +80,13 @@ jobs:
           echo "VITE_API_URL=http://127.0.0.1:8000/api/v1" >> .env
 
       - name: Prepare database
-        working-directory: backend
+        working-directory: .
         run: |
           php artisan migrate --force --seed
           php artisan db:seed --class=E2eSmokeSeeder --force
 
       - name: Start Laravel API
-        working-directory: backend
+        working-directory: .
         run: php artisan serve --host=127.0.0.1 --port=8000 &
 
       - name: Start Vite dev server

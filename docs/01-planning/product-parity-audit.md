@@ -63,7 +63,7 @@ Legend: **Done** = meets phase acceptance · **Partial** = MVP/scaffold · **Mis
 
 | # | Feature | Status | Evidence |
 |---|---------|--------|----------|
-| 1 | Staff / lawyer AI chatbot | **Done** | `backend/app/Http/Controllers/Api/V1/AiAssistantController.php` (`chat`), `frontend/src/views/AiAssistantView.vue`, `routes/api.php` `/ai/chat` |
+| 1 | Staff / lawyer AI chatbot | **Done** | `app/Http/Controllers/Api/V1/AiAssistantController.php` (`chat`), `frontend/src/views/AiAssistantView.vue`, `routes/api.php` `/ai/chat` |
 | 2 | AI document drafting assistant | **Done** | `draftAssist`, `generateLetterPack`; TipTap + clause library (`ClauseLibraryPanel.vue`, `document_clauses`); merge fields (`MergeFieldPicker.vue`) |
 | 3 | AI document summarization | **Done** | `summarizeDocument`, governance logs in `AiGovernanceService.php` |
 | 4 | AI research assistant | **Done** | `summarizeResearchNotes`, `suggestAuthorities`; `frontend/src/components/cases/CaseResearchPanel.vue` |
@@ -391,7 +391,7 @@ Legend: **Done** = meets phase acceptance · **Partial** = MVP/scaffold · **Mis
 **Run after deploy:**
 
 ```bash
-cd backend && php artisan migrate
+php artisan migrate
 php scripts/verify-search.php
 php scripts/verify-phase4.php
 cd ../frontend && npm run build-only
@@ -403,9 +403,9 @@ cd ../frontend && npm run build-only
 
 | Artifact | Path |
 |----------|------|
-| E-sign route fix | `backend/routes/api.php` — `use SignatureRequestController` import |
-| Trust balance migration | `backend/database/migrations/2026_06_13_150000_add_trust_balance_and_ledger_stub.php` |
-| Trust ledger model | `backend/app/Models/TrustLedgerEntry.php` |
+| E-sign route fix | `routes/api.php` — `use SignatureRequestController` import |
+| Trust balance migration | `database/migrations/2026_06_13_150000_add_trust_balance_and_ledger_stub.php` |
+| Trust ledger model | `app/Models/TrustLedgerEntry.php` |
 | Overview metrics | `LegalMatterController::overviewMetrics` — `trust_balance`, `trust_ledger[]` |
 | Case form fields | `frontend/src/views/cases/CaseFormView.vue` — practice area, tags, trust balance |
 | Trust ledger UI | `frontend/src/views/cases/CaseDetailView.vue` — overview stub table |
@@ -416,7 +416,7 @@ cd ../frontend && npm run build-only
 **Run after deploy:**
 
 ```bash
-cd backend && php artisan migrate
+php artisan migrate
 php scripts/verify-phase2.php
 php scripts/verify-phase4.php
 php scripts/verify-wave2-calendar.php
@@ -438,13 +438,13 @@ php scripts/verify-wave2-calendar.php
 | Integrations API | `IntegrationSettingsController`, `GET /settings/integrations` |
 | Integrations UI | `IntegrationsPanel.vue`, `SettingsView.vue` tab |
 | DomPDF dependency | `composer.json` → `dompdf/dompdf` |
-| Env keys | `backend/.env.example` (Twilio, WhatsApp, Google Calendar, e-filing) |
+| Env keys | `.env.example` (Twilio, WhatsApp, Google Calendar, e-filing) |
 | Verify extensions | `verify-phase2.php`, `verify-phase3.php`, `verify-phase4.php`, `verify-phase5.php` |
 
 **Run after deploy:**
 
 ```bash
-cd backend && composer install
+composer install
 php scripts/verify-phase2.php
 php scripts/verify-phase3.php
 php scripts/verify-phase4.php
@@ -458,7 +458,7 @@ cd ../frontend && npm run build-only
 
 | Artifact | Path |
 |----------|------|
-| Client contacts migration | `backend/database/migrations/2026_06_13_140000_create_client_contacts_and_service_items.php` |
+| Client contacts migration | `database/migrations/2026_06_13_140000_create_client_contacts_and_service_items.php` |
 | Client contacts API | `ClientContactController.php`, `GET/POST/PUT/DELETE /client-contacts` |
 | Client contacts UI | `frontend/src/components/clients/ClientContactsPanel.vue`, `ClientDetailView.vue` |
 | Service items API | `ServiceItemController.php`, `GET/POST/PUT/DELETE /service-items` |
@@ -473,7 +473,7 @@ cd ../frontend && npm run build-only
 **Run after deploy:**
 
 ```bash
-cd backend && php artisan migrate
+php artisan migrate
 php scripts/verify-phase2.php
 php scripts/verify-phase3.php
 cd ../frontend && npm run build-only
@@ -490,7 +490,7 @@ cd ../frontend && npm run build-only
 | UI (prior) | `CaseDetailView.vue`, `InvoicesListView.vue`, `ClientsListView.vue`, `ClientDetailView.vue` |
 | Cases list cards | `frontend/src/views/cases/CasesListView.vue` (list/cards toggle) |
 | Dashboard deadline ring | `frontend/src/views/DashboardView.vue` (`calendarHubApi`, conic ring) |
-| Document folders migration | `backend/database/migrations/2026_06_13_130000_create_document_folders_and_checkout_columns.php` |
+| Document folders migration | `database/migrations/2026_06_13_130000_create_document_folders_and_checkout_columns.php` |
 | Folder API | `DocumentFolderController.php`, `GET/POST/PATCH/DELETE /document-folders` |
 | Checkout API | `LegalDocumentController::checkout`, `checkin`; `POST /documents/{id}/checkout|checkin` |
 | Verify extensions | `verify-phase2.php` (+10 folder/checkout checks), `verify-phase4.php` (+4 UI/hub checks) |
@@ -498,7 +498,7 @@ cd ../frontend && npm run build-only
 **Run after deploy:**
 
 ```bash
-cd backend && php artisan migrate
+php artisan migrate
 php scripts/verify-phase2.php
 php scripts/verify-phase4.php
 cd ../frontend && npm run build-only
@@ -510,22 +510,22 @@ cd ../frontend && npm run build-only
 
 | Artifact | Path |
 |----------|------|
-| Merge service | `backend/app/Services/DocumentMergeService.php` |
+| Merge service | `app/Services/DocumentMergeService.php` |
 | Catalog API | `GET /documents/merge-fields` |
 | Template picker | `frontend/src/components/documents/MergeFieldPicker.vue` |
-| Clause migration | `backend/database/migrations/2026_06_13_120000_create_document_clauses_table.php` |
-| Version lineage migration | `backend/database/migrations/2026_06_13_120100_add_source_to_document_versions_table.php` |
+| Clause migration | `database/migrations/2026_06_13_120000_create_document_clauses_table.php` |
+| Version lineage migration | `database/migrations/2026_06_13_120100_add_source_to_document_versions_table.php` |
 | Clause API | `DocumentClauseController.php`, `GET/POST/PATCH/DELETE /document-clauses` |
 | Clause UI | `frontend/src/components/documents/ClauseLibraryPanel.vue` |
 | Contract review API | `AiAssistantController::contractReview`, `POST /ai/contract/review` |
 | Letter pack API | `AiAssistantController::generateLetterPack`, `POST /ai/letters/generate-pack` |
 | Documents panel | `frontend/src/components/cases/CaseDocumentsPanel.vue` (clauses, review, letter pack, lineage) |
-| Verify extension | `backend/scripts/verify-phase4.php` |
+| Verify extension | `scripts/verify-phase4.php` |
 
 **Run after deploy:**
 
 ```bash
-cd backend && php artisan migrate
+php artisan migrate
 php scripts/verify-phase4.php
 ```
 
@@ -535,10 +535,10 @@ php scripts/verify-phase4.php
 
 | Artifact | Path |
 |----------|------|
-| Migration | `backend/database/migrations/2026_06_13_110000_add_calendar_event_hearing_deadline_fields.php` |
-| Hub API | `backend/app/Http/Controllers/Api/V1/CalendarHubController.php` |
-| Model constants | `backend/app/Models/CalendarEvent.php` (`HEARING_TYPES`, `DEADLINE_SUBTYPES`, etc.) |
-| Verify script | `backend/scripts/verify-wave2-calendar.php` |
+| Migration | `database/migrations/2026_06_13_110000_add_calendar_event_hearing_deadline_fields.php` |
+| Hub API | `app/Http/Controllers/Api/V1/CalendarHubController.php` |
+| Model constants | `app/Models/CalendarEvent.php` (`HEARING_TYPES`, `DEADLINE_SUBTYPES`, etc.) |
+| Verify script | `scripts/verify-wave2-calendar.php` |
 | Calendar grid util | `frontend/src/lib/calendar-grid.ts` |
 | Frontend enums | `frontend/src/lib/enums.ts` (`CALENDAR_HUB_CATEGORIES`, badge helpers) |
 | UI | `frontend/src/views/CalendarView.vue`, `frontend/src/components/cases/CaseCalendarPanel.vue` |
@@ -546,7 +546,7 @@ php scripts/verify-phase4.php
 **Run after deploy:**
 
 ```bash
-cd backend && php artisan migrate
+php artisan migrate
 php scripts/verify-wave2-calendar.php
 ```
 
@@ -556,17 +556,17 @@ php scripts/verify-wave2-calendar.php
 
 | Artifact | Path |
 |----------|------|
-| Migration | `backend/database/migrations/2026_06_13_100000_add_numbering_and_case_stages.php` |
-| Number service | `backend/app/Services/NumberSequenceService.php` |
-| Demo seeder | `backend/database/seeders/DemoDataSeeder.php` |
-| Verify script | `backend/scripts/verify-numbering.php` |
+| Migration | `database/migrations/2026_06_13_100000_add_numbering_and_case_stages.php` |
+| Number service | `app/Services/NumberSequenceService.php` |
+| Demo seeder | `database/seeders/DemoDataSeeder.php` |
+| Verify script | `scripts/verify-numbering.php` |
 | Frontend enums | `frontend/src/lib/enums.ts` |
 | UI updates | `CaseFormView.vue`, `CaseDetailView.vue`, `CasesListView.vue`, `ClientsListView.vue`, `ClientDetailView.vue`, `ClientFormView.vue` |
 
 **Run after deploy:**
 
 ```bash
-cd backend && php artisan migrate
+php artisan migrate
 php artisan db:seed --class=DemoDataSeeder   # optional demo CL-000001 / CASE-0001
 php scripts/verify-numbering.php
 ```
